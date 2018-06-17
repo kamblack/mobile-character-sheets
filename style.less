@@ -1,0 +1,41 @@
+body {
+    margin: 0;
+    padding: 10px;
+}
+.sheet {
+    h2:after {
+        content: "";
+        margin-left: 10px;
+        display: inline-block;
+        position: relative;
+        border: 7px solid transparent;
+        border-top-color: black;
+    }
+    h2.closed:after {
+        border-top-color: transparent;
+        border-bottom-color: black;
+    }
+    section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 10px;
+    }
+    button {
+        grid-column: span 1;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 1.5em;
+        cursor: pointer;
+        &:active {
+            border: inset 1px #aaa;
+        }
+        span {
+            padding-top: 10px;
+            font-size: 0.8rem;
+        }
+    }
+}
