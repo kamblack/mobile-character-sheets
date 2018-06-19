@@ -4,22 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato|Roboto" rel="stylesheet">
+    <link type="text/css" rel="stylesheet/less" href="style.less">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/3.0.2/less.min.js" ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
+    <script src="script.js"></script>
     <title>Character Sheets</title>
 </head>
 <body>
     <div class="sheet">
-        <h1>{{name}}</h1>
-        <h2>Saves</h2>
+        <h1>Kriq</h1>
+        <h2 class="accordion">Saves</h2>
         <section class="saves">
-            <button>Str<span class="detail">+<span class="value">{{mod}}</span></span></button>
-            <button>Dex<span class="detail">+<span class="value">{{mod}}</span></span></button>
-            <button>Con<span class="detail">+<span class="value">{{mod}}</span></span></button>
-            <button>Int<span class="detail">+<span class="value">{{mod}}</span></span></button>
-            <button>Wis<span class="detail">+<span class="value">{{mod}}</span></span></button>
-            <button>Cha<span class="detail">+<span class="value">{{mod}}</span></span></button>
+            <table>
+                <tbody>
+                    <tr><td class="name">Strength</td><td class="mod">+4</td><td class="roll"><button>Roll</button></td></tr>
+                    <tr><td class="name">Dexterity</td><td class="mod">+7</td><td class="roll"><button>Roll</button></td></tr>
+                    <tr><td class="name">Constitution</td><td class="mod">+1</td><td class="roll"><button>Roll</button></td></tr>
+                    <tr><td class="name">Intelligence</td><td class="mod">-1</td><td class="roll"><button>Roll</button></td></tr>
+                    <tr><td class="name">Wisdom</td><td class="mod">+3</td><td class="roll"><button>Roll</button></td></tr>
+                    <tr><td class="name">Charisma</td><td class="mod">+0</td><td class="roll"><button>Roll</button></td></tr>
+                </tbody>
+            </table>
         </section>
-        <h2>Skills</h2>
+        <h2 class="accordion">Skills</h2>
         <section class="skills">
             <button>Str<span class="value">{{mod}}</span></button>
             <button>Str<span class="value">{{mod}}</span></button>
