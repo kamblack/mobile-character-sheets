@@ -14,22 +14,83 @@
 </head>
 <body>
     <div class="sheet">
-        <h1>Kriq</h1>
+        <h1>Kriq<small class="classes">Ranger 4/Monk 1</small><button class="hp">38 + 10 / 38<small>Hit Points</small></button><span class="xp-counter">1800 / 3500</span></h1>
+        <section class="experience">
+            Experience stuff here
+        </section>
+        <section class="hp-edit">
+            HP stuff here
+        </section>
+        <section class="key">
+            <ul>
+                <li>17<small>Armor Class</small></li>
+                <li>16<small>Passive Perception</small></li>
+                <li>25 ft<small>Speed</small></li>
+                <li>+3<small>Proficiency Bonus</small></li>
+            </ul>
+        </section>
+        <section class="initiative">
+            <ul>
+                <li class="accordion closed"><span class="name">Initiative</span><span class="mod">+4</span><span class="proficient"></span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Dex. (18) modifier</span><span class="mod">+4</span></div>
+            </ul>
+        </section>
         <h2 class="accordion">Saves</h2>
         <section class="saves">
             <ul>
-                <li><span class="name">Strength</span><span class="mod">+4</span><span class="proficient">&bull;</span><button class="roll">Roll</button></li>
-                <li><span class="name">Dexterity</span><span class="mod">+7</span><span class="proficient">&bull;</span><button class="roll">Roll</button></li>
-                <li><span class="name">Constitution</span><span class="mod">+1</span><span class="proficient"></span><button class="roll">Roll</button></li>
-                <li><span class="name">Intelligence</span><span class="mod">-1</span><span class="proficient"></span><button class="roll">Roll</button></li>
-                <li><span class="name">Wisdom</span><span class="mod">+3</span><span class="proficient"></span><button class="roll">Roll</button></li>
-                <li><span class="name">Charisma</span><span class="mod">+0</span><span class="proficient"></span><button class="roll">Roll</button></li>
+                <li class="accordion closed"><span class="name">Strength</span><span class="mod">+4</span><span class="proficient">&bull;</span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Str. (12) modifier<br/>Prof. bonus (<span class="proficient">&bull;</span>)</span><span class="mod">+1<br/>+3</span></div>
+                <li class="accordion closed"><span class="name">Dexterity</span><span class="mod">+7</span><span class="proficient">&bull;</span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Dex. (18) modifier<br/>Prof. bonus (<span class="proficient">&bull;</span>)</span><span class="mod">+4<br/>+3</span></div>
+                <li class="accordion closed"><span class="name">Constitution</span><span class="mod">+1</span><span class="proficient"></span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Con. (13) modifier</span><span class="mod">+1</span></div>
+                <li class="accordion closed"><span class="name">Intelligence</span><span class="mod">-1</span><span class="proficient"></span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Int. (8) modifier</span><span class="mod">-1</span></div>
+                <li class="accordion closed"><span class="name">Wisdom</span><span class="mod">+3</span><span class="proficient"></span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Wis. (16) modifier</span><span class="mod">+3</span></div>
+                <li class="accordion closed"><span class="name">Charisma</span><span class="mod">+0</span><span class="proficient"></span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Cha. (10) modifier</span><span class="mod">+0</span></div>
             </ul>
         </section>
         <h2 class="accordion">Skills</h2>
         <section class="skills">
             <ul>
-                <li><span class="name">Acrobatics</span><span class="mod">+5</span><button class="roll">Roll</button></li>
+                <li class="accordion closed"><span class="name">Acrobatics</span><span class="mod">+4</span><span class="proficient"></span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Dex. (18) modifier</span><span class="mod">+4</span></div>
+                <li class="accordion closed"><span class="name">Animal Handling</span><span class="mod">+3</span><span class="proficient"></span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Wis. (16) modifier</span><span class="mod">+3</span></div>
+                <li class="accordion closed"><span class="name">Arcana</span><span class="mod">-1</span><span class="proficient"></span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Int. (8) modifier</span><span class="mod">-1</span></div>
+                <li class="accordion closed"><span class="name">Athletics</span><span class="mod">+4</span><span class="proficient">&bull;</span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Str. (12) modifier<br/>Prof. bonus (<span class="proficient">&bull;</span>)</span><span class="mod">+1<br/>+3</span></div>
+                <li class="accordion closed"><span class="name">Deception</span><span class="mod">+0</span><span class="proficient"></span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Cha. (10) modifier</span><span class="mod">+0</span></div>
+                <li class="accordion closed"><span class="name">History</span><span class="mod">-1</span><span class="proficient"></span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Int. (8) modifier</span><span class="mod">-1</span></div>
+                <li class="accordion closed"><span class="name">Insight</span><span class="mod">+3</span><span class="proficient"></span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Wis. (16) modifier</span><span class="mod">+3</span></div>
+                <li class="accordion closed"><span class="name">Intimidation</span><span class="mod">+0</span><span class="proficient"></span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Cha. (10) modifier</span><span class="mod">+0</span></div>
+                <li class="accordion closed"><span class="name">Investigation</span><span class="mod">+2</span><span class="proficient">&bull;</span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Int. (8) modifier<br/>Prof. bonus (<span class="proficient">&bull;</span>)</span><span class="mod">-1<br/>+3</span></div>
+                <li class="accordion closed"><span class="name">Medicine</span><span class="mod">+3</span><span class="proficient"></span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Wis. (16) modifier</span><span class="mod">+3</span></div>
+                <li class="accordion closed"><span class="name">Nature</span><span class="mod">+2</span><span class="proficient">&bull;</span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Int. (8) modifier<br/>Prof. bonus (<span class="proficient">&bull;</span>)</span><span class="mod">-1<br/>+3</span></div>
+                <li class="accordion closed"><span class="name">Perception</span><span class="mod">+6</span><span class="proficient">&bull;</span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Wis. (16) modifier<br/>Prof. bonus (<span class="proficient">&bull;</span>)</span><span class="mod">+3<br/>+3</span></div>
+                <li class="accordion closed"><span class="name">Performance</span><span class="mod">+0</span><span class="proficient"></span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Cha. (10) modifier</span><span class="mod">+0</span></div>
+                <li class="accordion closed"><span class="name">Persuasion</span><span class="mod">+0</span><span class="proficient"></span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Cha. (10) modifier</span><span class="mod">+0</span></div>
+                <li class="accordion closed"><span class="name">Religion</span><span class="mod">-1</span><span class="proficient"></span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Int. (8) modifier</span><span class="mod">-1</span></div>
+                <li class="accordion closed"><span class="name">Sleight of Hand</span><span class="mod">+4</span><span class="proficient"></span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Dex. (18) modifier</span><span class="mod">+4</span></div>
+                <li class="accordion closed"><span class="name">Stealth</span><span class="mod">+4</span><span class="proficient"></span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Dex. (18) modifier</span><span class="mod">+4</span></div>
+                <li class="accordion closed"><span class="name">Survival</span><span class="mod">+6</span><span class="proficient">&bull;</span><button class="roll">Roll</button></li>
+                <div class="details"><span class="name">Wis. (16) modifier<br/>Prof. bonus (<span class="proficient">&bull;</span>)</span><span class="mod">+3<br/>+3</span></div>
             </ul>
         </section>
     </div>
