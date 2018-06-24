@@ -19,16 +19,16 @@ h1,h2,h3,h4,h5,h6 { font-family: Lato, sans-serif; }
         margin: 0;
         display: flex;
         align-items: baseline;
-        border-bottom: 20px solid;
-        border-image: linear-gradient(to right, green, green 40%, #ddd 40.1%, #ddd) 30;
-        position: relative;
-        .xp-counter {
-            display: block;
-            position: absolute;
-            bottom: -20px; left: 5px;
-            color: #fff;
-            font-size: 14px;
-        }
+        // border-bottom: 20px solid;
+        // border-image: linear-gradient(to right, green, green 40%, #ddd 40.1%, #ddd) 30;
+        // position: relative;
+        // .xp-counter {
+        //     display: block;
+        //     position: absolute;
+        //     bottom: -20px; left: 5px;
+        //     color: #fff;
+        //     font-size: 14px;
+        // }
         .classes {
             font-size: 0.4em;
             margin-left: 10px;
@@ -43,9 +43,9 @@ h1,h2,h3,h4,h5,h6 { font-family: Lato, sans-serif; }
             border: 1px solid #999;
             border-radius: 3px;
             width: 33%;
+            text-transform: uppercase;
             small {
                 display: block;
-                text-transform: uppercase;
                 font-size: 0.6em;
             }
         }
@@ -78,7 +78,7 @@ h1,h2,h3,h4,h5,h6 { font-family: Lato, sans-serif; }
         border-top-width: 0;
         padding: 10px;
         background: #fff;
-        &.character-edit, &.hp-edit {
+        /*&.character-edit,*/ &.hp-edit {
             margin-top: 20px;
             position: relative;
             &:before {
@@ -94,22 +94,30 @@ h1,h2,h3,h4,h5,h6 { font-family: Lato, sans-serif; }
             .hp-ticker {
                 display: flex;
                 justify-content: space-between;
+                align-items: center;
                 span {
+                    margin: 0 auto;
                     font-size: 0.6em;
                     text-transform: uppercase;
                     text-align: center;
                 }
-                .hp-value {
+                .hp-value, .hp-max {
                     font-size: initial;
                 }
                 .icon.button {
                     display: flex;
+                    flex-direction: column;
                     justify-content: center;
                     align-items: center;
                     border: 1px solid #999;
                     border-radius: 3px;
-                    width: 20%;
+                    width: 15%;
+                    margin: 0;
                     font-size: 2em;
+                    small {
+                        font-size: 0.3em;
+                    }
+                    &.up { margin-left: 5px; }
                 }
             }
             .saving-throws {
@@ -144,11 +152,11 @@ h1,h2,h3,h4,h5,h6 { font-family: Lato, sans-serif; }
                 }
             }
         }
-        &.character-edit {
-            &::before {
-                right: 85%;
-            }
-        }
+        // &.character-edit {
+        //     &::before {
+        //         right: 85%;
+        //     }
+        // }
         &.key {
             margin-top: 20px;
             ul {
