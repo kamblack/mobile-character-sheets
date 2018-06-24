@@ -1,7 +1,7 @@
 $(function(){
 
     $('.closed').next().slideUp(0);
-    $('.experience, .hp-edit').slideUp(0);
+    $('.character-edit, .hp-edit').slideUp(0);
 
     // Dice roller
     function roll(die, quantity){
@@ -27,10 +27,10 @@ $(function(){
             $('.hp-edit').slideUp('fast');
             $('.closed').next().slideUp('fast');
         } else if ($(element).is('button.hp')) {
-            $('.experience').slideUp('fast');
+            $('.character-edit').slideUp('fast');
             $('.closed').next().slideUp('fast');
         } else {
-            $('.experience, .hp-edit').slideUp('fast');
+            $('.character-edit, .hp-edit').slideUp('fast');
             $('.closed').not(element).next().slideUp('fast');
         }
     }
@@ -42,7 +42,7 @@ $(function(){
     });
     $('h1').on('click', function(){
         closeAllAccordionsBut($(this));
-        $('.experience').slideToggle('fast');
+        $('.character-edit').slideToggle('fast');
     });
     $('button.hp').on('click', function(e){
         e.stopPropagation();

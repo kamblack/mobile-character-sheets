@@ -15,11 +15,52 @@
 <body>
     <div class="sheet">
         <h1>Kriq<small class="classes">Ranger 4/Monk 1</small><button class="hp">38 + 10 / 38<small>Hit Points</small></button><span class="xp-counter">1800 / 3500</span></h1>
-        <section class="experience">
-            Experience stuff here
+        <section class="character-edit">
+            Experience/Main character options here
         </section>
         <section class="hp-edit">
-            HP stuff here
+            <div class="hp-ticker">
+                <span class="icon button down">-</span>
+                <span>Current HP:<br/><span class="hp-value">38 + 10 Temp</span></span>
+                <span class="icon button up">+</span>
+            </div>
+            <hr/>
+            <div class="saving-throws">
+                <div class="successes">
+                    <span>Successes</span>
+                    <input type="checkbox" />
+                    <input type="checkbox" />
+                    <input type="checkbox" />
+                </div>
+                <div class="failures">
+                    <span>Failures</span>
+                    <input type="checkbox" />
+                    <input type="checkbox" />
+                    <input type="checkbox" />
+                </div>
+            </div>
+            <hr/>
+            <div class="condition">
+                Condition:
+                <select id="condition">
+                    <option value="none">None</option>
+                    <option value="blinded">Blinded</option>
+                    <option value="charmed">Charmed</option>
+                    <option value="deafened">Deafened</option>
+                    <option value="exhaustion">Exhaustion</option>
+                    <option value="frightened">Frightened</option>
+                    <option value="grappled">Grappled</option>
+                    <option value="incapacitated">Incapacitated</option>
+                    <option value="invisible">Invisible</option>
+                    <option value="paralyzed">Paralyzed</option>
+                    <option value="petrified">Petrified</option>
+                    <option value="poisoned">Poisoned</option>
+                    <option value="prone">Prone</option>
+                    <option value="restrained">Restrained</option>
+                    <option value="stunned">Stunned</option>
+                    <option value="unconscious">Unconscious</option>
+                </select>
+            </div>
         </section>
         <section class="key">
             <ul>
