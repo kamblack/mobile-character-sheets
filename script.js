@@ -1,7 +1,7 @@
 $(function(){
 
     $('.closed').next().slideUp(0);
-    $('.character-edit, .hp-edit').slideUp(0);
+    $('.hp-edit').slideUp(0);
 
     // HP Manager
     var startingHpStringArray = $('.hp-value').text().split(' ');
@@ -38,9 +38,9 @@ $(function(){
         }
         refreshHp();
     }
-    $('.button.up').on('click', hpUp);
-    $('.button.temp').on('click', tempHpUp);
-    $('.button.down').on('click', hpDown);
+    $('button.up').on('click', hpUp);
+    $('button.temp').on('click', tempHpUp);
+    $('button.down').on('click', hpDown);
 
     // Dice roller
     function roll(die, quantity){
@@ -55,21 +55,21 @@ $(function(){
     var resetTimer;
     function resetRoll(button){
         resetTimer = window.setTimeout(function(){
-        $(button)
-            .removeClass('roll--active')
-            .html('Roll');
+            if ($(button).hasClass('to-hit')) {
+                $(button).removeClass('roll--active').html('To Hit');
+            } else if ($(button).hasClass('for-dmg')) {
+                $(button).removeClass('roll--active').html('Damage');
+            } else {
+                $(button).removeClass('roll--active').html('Roll');
+            }
         }, 10000);
     }
     // Close all accordions
     function closeAllAccordionsBut(element){
-        /*if ($(element).is('h1')) {
-            $('.hp-edit').slideUp('fast');
-            $('.closed').next().slideUp('fast');
-        } else*/ if ($(element).is('button.hp')) {
-            $('.character-edit').slideUp('fast');
+        if ($(element).is('h1')) {
             $('.closed').next().slideUp('fast');
         } else {
-            $('.character-edit, .hp-edit').slideUp('fast');
+            $('.hp-edit').slideUp('fast');
             $('.closed').not(element).next().slideUp('fast');
         }
     }
@@ -79,12 +79,7 @@ $(function(){
         closeAllAccordionsBut($(this));
         $(this).next().slideToggle('fast');
     });
-    // $('h1').on('click', function(){
-    //     closeAllAccordionsBut($(this));
-    //     $('.character-edit').slideToggle('fast');
-    // });
-    $('button.hp').on('click', function(e){
-        e.stopPropagation();
+    $('h1').on('click', function(){
         closeAllAccordionsBut($(this));
         $('.hp-edit').slideToggle('fast');
     });
@@ -92,8 +87,8 @@ $(function(){
     // Roll it
     $('section:not(.initiative) button.roll').on('click', function(e){
         e.stopPropagation();
-        var mod = Number($(this).siblings('.mod').text());
-        var die = Number(roll(20));
+        var mod = ($(this).hasClass('for-dmg')) ? Number($(this).siblings('.dmg').text().split(/[\+\-]+/)[1]) : Number($(this).siblings('.mod').text());
+        var die = ($(this).hasClass('for-dmg')) ? Number(roll($(this).siblings('.dmg').text().split(/[\+\-]+/)[0].split('d')[1])) : Number(roll(20));
         var total = die+mod;
         $(this)
             .addClass('roll--active')

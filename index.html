@@ -17,21 +17,17 @@
         <h1>Kriq
             <small class="classes">Ranger 4/Monk 1</small>
             <button class="hp">38 + 10 / 38<small>Hit Points</small></button>
-            <!-- <span class="xp-counter">1800 / 3500</span> -->
         </h1>
-        <!-- <section class="character-edit">
-            Experience/Main character options here
-        </section> -->
         <section class="hp-edit">
             <div class="hp-ticker">
-                <span class="icon button down">-<small>Reduce HP</small></span>
+                <button class="icon button down">-<small>Reduce HP</small></button>
                 <span>
                     Current HP:<br/>
                     <span class="hp-value">38 + 10 Temp</span>
                     <span class="hp-max"> / 38</span>
                 </span>
-                <span class="icon button temp">+<small>Temp HP</small></span>
-                <span class="icon button up">+<small>Add HP</small></span>
+                <button class="icon button temp">+<small>Temp HP</small></button>
+                <button class="icon button up">+<small>Add HP</small></button>
             </div>
             <hr/>
             <div class="saving-throws">
@@ -85,8 +81,19 @@
                 <div class="details"><span class="name">Dex. (18) modifier</span><span class="mod">+4</span></div>
             </ul>
         </section>
-        <h2 class="accordion">Saves</h2>
+        <section class="attacks">
+            <h2 class="accordion">Attacks</h2>
+            <ul>
+                <li class="accordion closed"><span class="name">Talons</span><span class="mod">+7</span><span class="dmg">1d4+4</span><button class="roll to-hit">To Hit</button><button class="roll for-dmg">Damage</button></li>
+                <div class="details"><span class="name">Weapon damage<br/>Dex. (18) modifier<br/>Prof. bonus (<span class="proficient">&bull;</span>)</span><span class="mod"><br/>+4<br/>+3</span><span class="dmg">1d4<br/>+4</span></div>
+                <li class="accordion closed"><span class="name">Longbow</span><span class="mod">+7</span><span class="dmg">1d8+4</span><button class="roll to-hit">To Hit</button><button class="roll for-dmg">Damage</button></li>
+                <div class="details"><span class="name">Weapon damage<br/>Dex. (18) modifier<br/>Prof. bonus (<span class="proficient">&bull;</span>)</span><span class="mod"><br/>+4<br/>+3</span><span class="dmg">1d8<br/>+4</span></div>
+                <li class="accordion closed"><span class="name">Whip</span><span class="mod">+7</span><span class="dmg">1d4+6</span><button class="roll to-hit">To Hit</button><button class="roll for-dmg">Damage</button></li>
+                <div class="details"><span class="name">Weapon damage<br/>Dex. (18) modifier<br/>Prof. bonus (<span class="proficient">&bull;</span>)<br/>Fighting style</span><span class="mod"><br/>+4<br/>+3</span><span class="dmg">1d8<br/>+4<br/><br/>+2</span></div>
+            </ul>
+        </section>
         <section class="saves">
+            <h2 class="accordion">Saves</h2>
             <ul>
                 <li class="accordion closed"><span class="name">Strength</span><span class="mod">+4</span><span class="proficient">&bull;</span><button class="roll">Roll</button></li>
                 <div class="details"><span class="name">Str. (12) modifier<br/>Prof. bonus (<span class="proficient">&bull;</span>)</span><span class="mod">+1<br/>+3</span></div>
@@ -102,8 +109,8 @@
                 <div class="details"><span class="name">Cha. (10) modifier</span><span class="mod">+0</span></div>
             </ul>
         </section>
-        <h2 class="accordion">Skills</h2>
         <section class="skills">
+            <h2 class="accordion">Skills</h2>
             <ul>
                 <li class="accordion closed"><span class="name">Acrobatics</span><span class="mod">+4</span><span class="proficient"></span><button class="roll">Roll</button></li>
                 <div class="details"><span class="name">Dex. (18) modifier</span><span class="mod">+4</span></div>
