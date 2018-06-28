@@ -1,7 +1,7 @@
 $(function(){
 
     $('.closed').next().slideUp(0);
-    $('.hp-edit').slideUp(0);
+    $('.hp-edit, .attacks ul, .saves ul, .skills ul').slideUp(0);
 
     // HP Manager
     var startingHpStringArray = $('.hp-value').text().split(' ');
@@ -10,37 +10,36 @@ $(function(){
         temp: (startingHpStringArray[2] ? Number(startingHpStringArray[2]) : 0),
         max: Number($('.hp-max').text().slice(3))
     }
-    function refreshHp(){
+    function adjustHp(mod, temp){
+        if (temp) {
+            if (hp.temp + mod >= 0) { hp.temp += mod; }
+            else { hp.temp = 0; }
+        }
+        else {
+            if (mod > 0) {
+                if (hp.current + mod <= hp.max) { hp.current += mod; }
+                else { hp.current = hp.max; }
+            }
+            if (mod < 0) {
+                if (hp.temp) {
+                    if (hp.temp + mod >= 0) { hp.temp += mod; }
+                    else {
+                        var carryOver = hp.temp += mod;
+                        hp.temp = 0;
+                        adjustHp(carryOver);
+                    }
+                }
+                else {
+                    if (hp.current + mod >= 0) { hp.current += mod; }
+                    else { hp.current = 0; }
+                }
+            }
+        }
         var buttonHtml = (hp.temp ? hp.current+' + '+hp.temp+' / '+hp.max+'<small>Hit Points</small>' : hp.current+' / '+hp.max+'<small>Hit Points</small>');
         var editHtml = (hp.temp ? 'Current HP:<br/><span class="hp-value">'+hp.current+' + '+hp.temp+' Temp</span><span class="hp-max"> / '+hp.max+'</span>' : 'Current HP:<br/><span class="hp-value">'+hp.current+'</span><span class="hp-max"> / '+hp.max+'</span>');
         $('button.hp').html(buttonHtml);
         $('.hp-ticker > span:nth-child(2)').html(editHtml);
     }
-    function hpUp(){
-        if (hp.current < hp.max) {
-            hp.current++;
-            refreshHp();
-        }
-    }
-    function tempHpUp(){
-        if (hp.temp > 0) {
-            hp.temp++;
-        } else {
-            hp.temp = 1;
-        }
-        refreshHp();
-    }
-    function hpDown(){
-        if (hp.temp) {
-            hp.temp--;
-        } else {
-            hp.current--;
-        }
-        refreshHp();
-    }
-    $('button.up').on('click', hpUp);
-    $('button.temp').on('click', tempHpUp);
-    $('button.down').on('click', hpDown);
 
     // Dice roller
     function roll(die, quantity){
@@ -75,32 +74,38 @@ $(function(){
     }
 
     // Accordions
-    $('.accordion').on('click', function(){
+    $('.sheet').on('click', '.accordion', function(){
         closeAllAccordionsBut($(this));
-        $(this).next().slideToggle('fast');
-    });
-    $('h1').on('click', function(){
-        closeAllAccordionsBut($(this));
-        $('.hp-edit').slideToggle('fast');
+        $(this).next().slideToggle({ duration: 'fast', start: function(){
+            if ($(this).is(':visible'))
+                $(this).css('display', 'grid');
+        }});
     });
 
-    // Roll it
-    $('section:not(.initiative) button.roll').on('click', function(e){
-        e.stopPropagation();
-        var mod = ($(this).hasClass('for-dmg')) ? Number($(this).siblings('.dmg').text().split(/[\+\-]+/)[1]) : Number($(this).siblings('.mod').text());
-        var die = ($(this).hasClass('for-dmg')) ? Number(roll($(this).siblings('.dmg').text().split(/[\+\-]+/)[0].split('d')[1])) : Number(roll(20));
-        var total = die+mod;
-        $(this)
-            .addClass('roll--active')
-            .html('<span class="die-roll">'+die+'</span>&nbsp;+ '+mod+' =&nbsp;<span class="roll-result">'+total+'</span>');
-        resetRoll($(this));
-    });
-    $('section.initiative button.roll').on('click', function(e){
-        e.stopPropagation();
-        var mod = Number($(this).siblings('.mod').text());
-        var die = Number(roll(20));
-        var total = die+mod;
-        $(this).html('<span class="die-roll">'+die+'</span>&nbsp;+ '+mod+' =&nbsp;<span class="roll-result">'+total+'</span>');
+    // All buttons
+    $('.sheet').on('click', 'button', function(e){
+        if (!$(this).hasClass('hp')) {
+            e.stopPropagation();
+            if ($(this).hasClass('up')) { adjustHp(1); }
+            if ($(this).hasClass('temp')) { adjustHp(1, true); }
+            if ($(this).hasClass('down')) { adjustHp(-1); }
+            if ($(this).hasClass('roll')) {
+                if ($(this).hasClass('init')) {
+                    var mod = Number($(this).siblings('.mod').text());
+                    var die = Number(roll(20));
+                    var total = die+mod;
+                    $(this).html('<span class="die-roll">'+die+'</span>&nbsp;+ '+mod+' =&nbsp;<span class="roll-result">'+total+'</span>');
+                } else {
+                    var mod = ($(this).hasClass('for-dmg')) ? Number($(this).siblings('.dmg').text().split(/[\+\-]+/)[1]) : Number($(this).siblings('.mod').text());
+                    var die = ($(this).hasClass('for-dmg')) ? Number(roll($(this).siblings('.dmg').text().split(/[\+\-]+/)[0].split('d')[1])) : Number(roll(20));
+                    var total = die+mod;
+                    $(this)
+                        .addClass('roll--active')
+                        .html('<span class="die-roll">'+die+'</span>&nbsp;+ '+mod+' =&nbsp;<span class="roll-result">'+total+'</span>');
+                    resetRoll($(this));
+                }
+            }
+        }
     });
 
 });
