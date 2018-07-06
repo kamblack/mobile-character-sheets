@@ -4,19 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
     <link href="https://fonts.googleapis.com/css?family=Lato|Roboto" rel="stylesheet">
     <link type="text/css" rel="stylesheet/less" href="style.less">
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/3.0.2/less.min.js" ></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
-    <script src="script.js"></script>
+    <script src="test-characters.json"></script>
+
     <title>Character Sheets</title>
 </head>
 <body>
-    <div class="sheet">
-        <h1 class="accordion">Kriq
-            <small class="classes">Ranger 4/Monk 1</small>
-            <button class="hp">38 + 10 / 38<small>Hit Points</small></button>
+    <div id="sheet" class="sheet dnd5e">
+        <h1 v-on:click="accordion($event)">{{ name }}
+            <small class="classes">{{ classList }}</small>
+            <button v-if="temporaryHitPoints" class="hp">{{ maxHp - removedHitPoints }} + {{ temporaryHitPoints }} / {{ maxHp }}<small>Hit Points</small></button>
+            <button v-else class="hp">{{ maxHp - removedHitPoints }} / {{ maxHp }}<small>Hit Points</small></button>
         </h1>
         <section class="hp-edit">
             <div class="hp-ticker">
@@ -161,5 +164,8 @@
             </ul>
         </section>
     </div>
+
+    
+    <script src="script.js"></script>
 </body>
 </html>
