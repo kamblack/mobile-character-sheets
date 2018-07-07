@@ -3797,8 +3797,8 @@ var characters = [
     ],
     "conditions": [],
     "deathSaves": {
-      "failCount": null,
-      "successCount": null,
+      "failCount": 2,
+      "successCount": 1,
       "isStabilized": false
     },
     "adjustmentXp": null,

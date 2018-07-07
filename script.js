@@ -30,6 +30,21 @@ const sheet = new Vue({
     methods: {
         accordion: function(e){
             $(e.currentTarget).next().slideToggle();
+        },
+        hpDown: function(){
+            if (this.temporaryHitPoints) { this.temporaryHitPoints--; }
+            else if (this.removedHitPoints < this.maxHp) {
+                this.removedHitPoints++;
+            }
+        },
+        hpUp: function(){
+            if (this.removedHitPoints > 0) { this.removedHitPoints--; }
+        },
+        tempHpUp: function(){
+            this.temporaryHitPoints++;
+        },
+        updateDeathSaves: function(){
+            console.log('update');
         }
     }
 });

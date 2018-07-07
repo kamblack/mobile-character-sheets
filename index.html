@@ -23,28 +23,29 @@
         </h1>
         <section class="hp-edit">
             <div class="hp-ticker">
-                <button class="icon button down">-<small>HP Down</small></button>
+                <button v-on:click="hpDown" class="icon button down">-<small>HP Down</small></button>
                 <span>
                     Current HP:<br/>
-                    <span class="hp-value">38 + 10 Temp</span>
-                    <span class="hp-max"> / 38</span>
+                    <span v-if="temporaryHitPoints" class="hp-value">{{ maxHp - removedHitPoints }} + {{ temporaryHitPoints }} Temp</span>
+                    <span v-else class="hp-value">{{ maxHp - removedHitPoints }}</span>
+                    <span class="hp-max"> / {{ maxHp }}</span>
                 </span>
-                <button class="icon button temp">+<small>Temp HP</small></button>
-                <button class="icon button up">+<small>HP Up</small></button>
+                <button v-on:click="tempHpUp" class="icon button temp">+<small>Temp HP</small></button>
+                <button v-on:click="hpUp" class="icon button up">+<small>HP Up</small></button>
             </div>
             <hr/>
             <div class="saving-throws">
                 <div class="successes">
                     <span>Successes</span>
-                    <input type="checkbox" />
-                    <input type="checkbox" />
-                    <input type="checkbox" />
+                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="deathSaves.successCount >= 1" />
+                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="deathSaves.successCount >= 2" />
+                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="deathSaves.successCount >= 3" />
                 </div>
                 <div class="failures">
                     <span>Failures</span>
-                    <input type="checkbox" />
-                    <input type="checkbox" />
-                    <input type="checkbox" />
+                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="deathSaves.failCount >= 1" />
+                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="deathSaves.failCount >= 2" />
+                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="deathSaves.failCount >= 3" />
                 </div>
             </div>
             <hr/>
