@@ -10,24 +10,24 @@
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/less.js/3.0.2/less.min.js" ></script>
-    <script src="test-characters.json"></script>
+    <script src="test-character.js"></script>
 
     <title>Character Sheets</title>
 </head>
 <body>
     <div id="sheet" class="sheet dnd5e">
-        <h1 v-on:click="accordion($event)">{{ name }}
+        <h1 v-on:click="accordion($event)">{{ allCharacters[currentCharacter].name }}
             <small class="classes">{{ classList }}</small>
-            <button v-if="temporaryHitPoints" class="hp">{{ maxHp - removedHitPoints }} + {{ temporaryHitPoints }} / {{ maxHp }}<small>Hit Points</small></button>
-            <button v-else class="hp">{{ maxHp - removedHitPoints }} / {{ maxHp }}<small>Hit Points</small></button>
+            <button v-if="allCharacters[currentCharacter].temporaryHitPoints" class="hp">{{ maxHp - allCharacters[currentCharacter].removedHitPoints }} + {{ allCharacters[currentCharacter].temporaryHitPoints }} / {{ maxHp }}<small>Hit Points</small></button>
+            <button v-else class="hp">{{ maxHp - allCharacters[currentCharacter].removedHitPoints }} / {{ maxHp }}<small>Hit Points</small></button>
         </h1>
         <section class="hp-edit">
             <div class="hp-ticker">
                 <button v-on:click="hpDown" class="icon button down">-<small>HP Down</small></button>
                 <span>
                     Current HP:<br/>
-                    <span v-if="temporaryHitPoints" class="hp-value">{{ maxHp - removedHitPoints }} + {{ temporaryHitPoints }} Temp</span>
-                    <span v-else class="hp-value">{{ maxHp - removedHitPoints }}</span>
+                    <span v-if="allCharacters[currentCharacter].temporaryHitPoints" class="hp-value">{{ maxHp - allCharacters[currentCharacter].removedHitPoints }} + {{ allCharacters[currentCharacter].temporaryHitPoints }} Temp</span>
+                    <span v-else class="hp-value">{{ maxHp - allCharacters[currentCharacter].removedHitPoints }}</span>
                     <span class="hp-max"> / {{ maxHp }}</span>
                 </span>
                 <button v-on:click="tempHpUp" class="icon button temp">+<small>Temp HP</small></button>
@@ -37,43 +37,51 @@
             <div class="saving-throws">
                 <div class="successes">
                     <span>Successes</span>
-                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="deathSaves.successCount >= 1" />
-                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="deathSaves.successCount >= 2" />
-                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="deathSaves.successCount >= 3" />
+                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="allCharacters[currentCharacter].deathSaves.successCount >= 1" />
+                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="allCharacters[currentCharacter].deathSaves.successCount >= 2" />
+                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="allCharacters[currentCharacter].deathSaves.successCount >= 3" />
                 </div>
                 <div class="failures">
                     <span>Failures</span>
-                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="deathSaves.failCount >= 1" />
-                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="deathSaves.failCount >= 2" />
-                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="deathSaves.failCount >= 3" />
+                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="allCharacters[currentCharacter].deathSaves.failCount >= 1" />
+                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="allCharacters[currentCharacter].deathSaves.failCount >= 2" />
+                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="allCharacters[currentCharacter].deathSaves.failCount >= 3" />
                 </div>
             </div>
             <hr/>
             <div class="condition">
-                Condition:
-                <select id="condition">
-                    <option value="none">None</option>
-                    <option value="blinded">Blinded</option>
-                    <option value="charmed">Charmed</option>
-                    <option value="deafened">Deafened</option>
-                    <option value="exhaustion">Exhaustion</option>
-                    <option value="frightened">Frightened</option>
-                    <option value="grappled">Grappled</option>
-                    <option value="incapacitated">Incapacitated</option>
-                    <option value="invisible">Invisible</option>
-                    <option value="paralyzed">Paralyzed</option>
-                    <option value="petrified">Petrified</option>
-                    <option value="poisoned">Poisoned</option>
-                    <option value="prone">Prone</option>
-                    <option value="restrained">Restrained</option>
-                    <option value="stunned">Stunned</option>
-                    <option value="unconscious">Unconscious</option>
+                Conditions:
+                <select v-on:scroll.prevent="noscroll($event)" v-model="allCharacters[currentCharacter].conditions" multiple size="1">
+                    <option value="" disabled>Select</option>
+                    <option value="Blinded">Blinded</option>
+                    <option value="Charmed">Charmed</option>
+                    <option value="Deafened">Deafened</option>
+                    <option value="Exhaustion">Exhaustion</option>
+                    <option value="Frightened">Frightened</option>
+                    <option value="Grappled">Grappled</option>
+                    <option value="Incapacitated">Incapacitated</option>
+                    <option value="Invisible">Invisible</option>
+                    <option value="Paralyzed">Paralyzed</option>
+                    <option value="Petrified">Petrified</option>
+                    <option value="Poisoned">Poisoned</option>
+                    <option value="Prone">Prone</option>
+                    <option value="Restrained">Restrained</option>
+                    <option value="Stunned">Stunned</option>
+                    <option value="Unconscious">Unconscious</option>
                 </select>
+            </div>
+            <div class="condition-info" v-show="allCharacters[currentCharacter].conditions.length">
+                <dl>
+                    <template v-for="(condition, index) in allCharacters[currentCharacter].conditions">
+                        <dt>{{ condition }}</dt>
+                        <dd v-html="allCharacters[currentCharacter].conditionDetail[condition]"></dd>
+                    </template>
+                </dl>
             </div>
         </section>
         <section class="key">
             <ul>
-                <li>17<small>Armor Class</small></li>
+                <li>{{ armorClass }}<small>Armor Class</small></li>
                 <li>16<small>Passive Perception</small></li>
                 <li>25 ft<small>Speed</small></li>
                 <li>+3<small>Proficiency Bonus</small></li>

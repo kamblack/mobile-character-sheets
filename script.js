@@ -1,50 +1,93 @@
 $('.closed').next().slideUp(0);
 $('.hp-edit, .attacks ul, .saves ul, .skills ul').slideUp(0);
 
+if (typeof(Storage) !== "undefined") {
+    if (localStorage.characterData) {
+        characters = JSON.parse(localStorage.characterData);
+    }
+}
+
 const sheet = new Vue({
     el: '#sheet',
-    data: characters[0],
+    data: {
+        allCharacters: characters,
+        currentCharacter: 0
+    },
     computed: {
-        strMod: function(){ return Math.floor((this.stats[0].value-10)/2); },
-        dexMod: function(){ return Math.floor((this.stats[1].value-10)/2); },
-        conMod: function(){ return Math.floor((this.stats[2].value-10)/2); },
-        intMod: function(){ return Math.floor((this.stats[3].value-10)/2); },
-        wisMod: function(){ return Math.floor((this.stats[4].value-10)/2); },
-        chaMod: function(){ return Math.floor((this.stats[5].value-10)/2); },
-        maxHp: function(){ return this.overrideHitPoints ? this.overrideHitPoints : this.baseHitPoints+(this.conMod*this.totalLevels); },
+        strMod: function(){ return Math.floor((this.allCharacters[this.currentCharacter].stats[0].value-10)/2); },
+        dexMod: function(){ return Math.floor((this.allCharacters[this.currentCharacter].stats[1].value-10)/2); },
+        conMod: function(){ return Math.floor((this.allCharacters[this.currentCharacter].stats[2].value-10)/2); },
+        intMod: function(){ return Math.floor((this.allCharacters[this.currentCharacter].stats[3].value-10)/2); },
+        wisMod: function(){ return Math.floor((this.allCharacters[this.currentCharacter].stats[4].value-10)/2); },
+        chaMod: function(){ return Math.floor((this.allCharacters[this.currentCharacter].stats[5].value-10)/2); },
+        maxHp: function(){ return this.allCharacters[this.currentCharacter].overrideHitPoints ? this.allCharacters[this.currentCharacter].overrideHitPoints : this.allCharacters[this.currentCharacter].baseHitPoints+(this.conMod*this.totalLevels); },
         classList: function(){
             let classlist = '';
-            for (i=0;i<this.classes.length;i++){
-                classlist += (i < this.classes.length-1) ? this.classes[i].definition.name+' '+this.classes[i].level+'/' : this.classes[i].definition.name+' '+this.classes[i].level;
+            for (i=0;i<this.allCharacters[this.currentCharacter].classes.length;i++){
+                classlist += (i < this.allCharacters[this.currentCharacter].classes.length-1) ? this.allCharacters[this.currentCharacter].classes[i].definition.name+' '+this.allCharacters[this.currentCharacter].classes[i].level+'/' : this.allCharacters[this.currentCharacter].classes[i].definition.name+' '+this.allCharacters[this.currentCharacter].classes[i].level;
             }
             return classlist;
         },
         totalLevels: function(){
             let levels = 0;
-            for (i=0;i<this.classes.length;i++){
-                levels += this.classes[i].level;
+            for (i=0;i<this.allCharacters[this.currentCharacter].classes.length;i++){
+                levels += this.allCharacters[this.currentCharacter].classes[i].level;
             }
             return levels;
+        },
+        armorClass: function(){
+            // UNFINISHED - Add armor types, other modifiers
+            let armor = 0, shield = 0, mod = 0, unarmoredDefenseMonk, unarmoredDefenseBarbarian;
+            console.log(this.allCharacters[this.currentCharacter].modifiers.class.find(o=>o.id==='classFeature_226_2207'));
+            unarmoredDefenseMonk = (this.allCharacters[this.currentCharacter].modifiers.class.find(o=>o.id==='classFeature_226_2207')) ? true : false;
+
+            if (armor === 0 && shield === 0) { mod += this.dexMod; }
+            if (unarmoredDefenseMonk) { mod += this.wisMod; }
+            if (unarmoredDefenseBarbarian) { mod += this.conMod; }
+
+            return 10 + armor + shield + mod;
         }
     },
     methods: {
+        noscroll: function(e){
+            e.currentTarget.scrollTo(0,0);
+        },
         accordion: function(e){
             $(e.currentTarget).next().slideToggle();
         },
         hpDown: function(){
-            if (this.temporaryHitPoints) { this.temporaryHitPoints--; }
-            else if (this.removedHitPoints < this.maxHp) {
-                this.removedHitPoints++;
+            if (this.allCharacters[this.currentCharacter].temporaryHitPoints) { this.allCharacters[this.currentCharacter].temporaryHitPoints--; }
+            else if (this.allCharacters[this.currentCharacter].removedHitPoints < this.maxHp) {
+                this.allCharacters[this.currentCharacter].removedHitPoints++;
             }
         },
         hpUp: function(){
-            if (this.removedHitPoints > 0) { this.removedHitPoints--; }
+            if (this.allCharacters[this.currentCharacter].removedHitPoints > 0) { this.allCharacters[this.currentCharacter].removedHitPoints--; }
         },
         tempHpUp: function(){
-            this.temporaryHitPoints++;
+            this.allCharacters[this.currentCharacter].temporaryHitPoints++;
         },
         updateDeathSaves: function(){
-            console.log('update');
+            let successes = 0;
+            let failures = 0;
+            $('.successes input[type="checkbox"]').each(function(){
+                if (this.checked){ successes++; }
+            });
+            $('.failures input[type="checkbox"]').each(function(){
+                if (this.checked){ failures++; }
+            });
+            this.allCharacters[this.currentCharacter].deathSaves.successCount = successes;
+            this.allCharacters[this.currentCharacter].deathSaves.failCount = failures;
+        }
+    },
+    watch: {
+        allCharacters: {
+            handler: function(){
+                if (typeof(Storage) !== "undefined") {
+                    localStorage.setItem('characterData', JSON.stringify(this.allCharacters));
+                }
+            },
+            deep: true
         }
     }
 });
