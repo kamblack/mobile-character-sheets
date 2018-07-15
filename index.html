@@ -17,18 +17,18 @@
 <body>
     <div id="sheet" class="sheet dnd5e">
         <h1 v-on:click="accordion($event)">{{ allCharacters[currentCharacter].name }}
-            <small class="classes">{{ classList }}</small>
-            <button v-if="allCharacters[currentCharacter].temporaryHitPoints" class="hp">{{ maxHp - allCharacters[currentCharacter].removedHitPoints }} + {{ allCharacters[currentCharacter].temporaryHitPoints }} / {{ maxHp }}<small>Hit Points</small></button>
-            <button v-else class="hp">{{ maxHp - allCharacters[currentCharacter].removedHitPoints }} / {{ maxHp }}<small>Hit Points</small></button>
+            <small class="classes">{{ allCharacters[currentCharacter].class }}</small>
+            <button v-if="allCharacters[currentCharacter].hp.temp" class="hp">{{ allCharacters[currentCharacter].hp.max - allCharacters[currentCharacter].hp.missingHp }} + {{ allCharacters[currentCharacter].hp.temp }} / {{ allCharacters[currentCharacter].hp.max }}<small>Hit Points</small></button>
+            <button v-else class="hp">{{ allCharacters[currentCharacter].hp.max - allCharacters[currentCharacter].hp.missingHp }} / {{ allCharacters[currentCharacter].hp.max }}<small>Hit Points</small></button>
         </h1>
         <section class="hp-edit">
             <div class="hp-ticker">
                 <button v-on:click="hpDown" class="icon button down">-<small>HP Down</small></button>
                 <span>
                     Current HP:<br/>
-                    <span v-if="allCharacters[currentCharacter].temporaryHitPoints" class="hp-value">{{ maxHp - allCharacters[currentCharacter].removedHitPoints }} + {{ allCharacters[currentCharacter].temporaryHitPoints }} Temp</span>
-                    <span v-else class="hp-value">{{ maxHp - allCharacters[currentCharacter].removedHitPoints }}</span>
-                    <span class="hp-max"> / {{ maxHp }}</span>
+                    <span v-if="allCharacters[currentCharacter].hp.temp" class="hp-value">{{ allCharacters[currentCharacter].hp.max - allCharacters[currentCharacter].hp.missingHp }} + {{ allCharacters[currentCharacter].hp.temp }} Temp</span>
+                    <span v-else class="hp-value">{{ allCharacters[currentCharacter].hp.max - allCharacters[currentCharacter].hp.missingHp }}</span>
+                    <span class="hp-max"> / {{ allCharacters[currentCharacter].hp.max }}</span>
                 </span>
                 <button v-on:click="tempHpUp" class="icon button temp">+<small>Temp HP</small></button>
                 <button v-on:click="hpUp" class="icon button up">+<small>HP Up</small></button>
@@ -37,15 +37,15 @@
             <div class="saving-throws">
                 <div class="successes">
                     <span>Successes</span>
-                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="allCharacters[currentCharacter].deathSaves.successCount >= 1" />
-                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="allCharacters[currentCharacter].deathSaves.successCount >= 2" />
-                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="allCharacters[currentCharacter].deathSaves.successCount >= 3" />
+                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="allCharacters[currentCharacter].deathSaves.successes >= 1" />
+                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="allCharacters[currentCharacter].deathSaves.successes >= 2" />
+                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="allCharacters[currentCharacter].deathSaves.successes >= 3" />
                 </div>
                 <div class="failures">
                     <span>Failures</span>
-                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="allCharacters[currentCharacter].deathSaves.failCount >= 1" />
-                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="allCharacters[currentCharacter].deathSaves.failCount >= 2" />
-                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="allCharacters[currentCharacter].deathSaves.failCount >= 3" />
+                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="allCharacters[currentCharacter].deathSaves.failures >= 1" />
+                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="allCharacters[currentCharacter].deathSaves.failures >= 2" />
+                    <input type="checkbox" v-on:change="updateDeathSaves" v-bind:checked="allCharacters[currentCharacter].deathSaves.failures >= 3" />
                 </div>
             </div>
             <hr/>
@@ -71,105 +71,56 @@
                 </select>
             </div>
             <div class="condition-info" v-show="allCharacters[currentCharacter].conditions.length">
-                <dl>
-                    <template v-for="(condition, index) in allCharacters[currentCharacter].conditions">
-                        <dt>{{ condition }}</dt>
-                        <dd v-html="allCharacters[currentCharacter].conditionDetail[condition]"></dd>
-                    </template>
-                </dl>
+                <ul>
+                    <li v-for="condition in allCharacters[currentCharacter].conditions">{{ condition }}</li>
+                </ul>
             </div>
         </section>
         <section class="key">
             <ul>
-                <li>{{ armorClass }}<small>Armor Class</small></li>
-                <li>16<small>Passive Perception</small></li>
-                <li>25 ft<small>Speed</small></li>
-                <li>+3<small>Proficiency Bonus</small></li>
+                <li>{{ allCharacters[currentCharacter].armorClass }}<small>Armor Class</small></li>
+                <li>{{ 10 + wisMod + (allCharacters[currentCharacter].proficiencies.skills.perception ? allCharacters[currentCharacter].profBonus : 0) }}<small>Passive Perception</small></li>
+                <li>{{ allCharacters[currentCharacter].speed }} ft<small>Speed</small></li>
+                <li>+{{ allCharacters[currentCharacter].profBonus }}<small>Proficiency Bonus</small></li>
             </ul>
         </section>
         <section class="initiative">
             <ul>
-                <li class="accordion closed"><span class="name">Initiative</span><span class="mod">+4</span><span class="proficient"></span><button class="roll init">Roll</button></li>
-                <div class="details"><span class="name">Dex. (18) modifier</span><span class="mod">+4</span></div>
+                <li class="accordion closed"><span class="name">Initiative</span><span class="mod">+{{ dexMod }}</span><span class="proficient"></span><button class="roll init">Roll</button></li>
             </ul>
         </section>
         <section class="attacks">
             <h2 class="accordion">Attacks</h2>
             <ul>
-                <li class="accordion closed">
-                    <span class="name">Talons</span>
-                    <span class="mod">+7</span>
-                    <span class="dmg">1d4+4</span>
+                <li v-for="attack in allCharacters[currentCharacter].attacks">
+                    <span class="name">{{ attack.name }}</span>
+                    <span class="mod">{{ attack.toHit }}</span>
+                    <span class="dmg">{{ attack.damage }}</span>
                     <button class="roll to-hit">To Hit</button>
-                    <button class="roll for-dmg">Damage</button>
+                    <button class="roll to-hit">Damage</button>
                 </li>
-                <div class="details">
-                    <span class="name">Weapon damage<br/>Dex. (18) modifier<br/>Prof. bonus (<span class="proficient">&bull;</span>)</span>
-                    <span class="mod"><br/>+4<br/>+3</span>
-                    <span class="dmg">1d4<br/>+4</span>
-                </div>
-                <li class="accordion closed"><span class="name">Longbow</span><span class="mod">+7</span><span class="dmg">1d8+4</span><button class="roll to-hit">To Hit</button><button class="roll for-dmg">Damage</button></li>
-                <div class="details"><span class="name">Weapon damage<br/>Dex. (18) modifier<br/>Prof. bonus (<span class="proficient">&bull;</span>)</span><span class="mod"><br/>+4<br/>+3</span><span class="dmg">1d8<br/>+4</span></div>
-                <li class="accordion closed"><span class="name">Whip</span><span class="mod">+7</span><span class="dmg">1d4+6</span><button class="roll to-hit">To Hit</button><button class="roll for-dmg">Damage</button></li>
-                <div class="details"><span class="name">Weapon damage<br/>Dex. (18) modifier<br/>Prof. bonus (<span class="proficient">&bull;</span>)<br/>Fighting style</span><span class="mod"><br/>+4<br/>+3</span><span class="dmg">1d8<br/>+4<br/><br/>+2</span></div>
             </ul>
         </section>
         <section class="saves">
             <h2 class="accordion">Saves</h2>
             <ul>
-                <li class="accordion closed"><span class="name">Strength</span><span class="mod">+4</span><span class="proficient">&bull;</span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Str. (12) modifier<br/>Prof. bonus (<span class="proficient">&bull;</span>)</span><span class="mod">+1<br/>+3</span></div>
-                <li class="accordion closed"><span class="name">Dexterity</span><span class="mod">+7</span><span class="proficient">&bull;</span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Dex. (18) modifier<br/>Prof. bonus (<span class="proficient">&bull;</span>)</span><span class="mod">+4<br/>+3</span></div>
-                <li class="accordion closed"><span class="name">Constitution</span><span class="mod">+1</span><span class="proficient"></span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Con. (13) modifier</span><span class="mod">+1</span></div>
-                <li class="accordion closed"><span class="name">Intelligence</span><span class="mod">-1</span><span class="proficient"></span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Int. (8) modifier</span><span class="mod">-1</span></div>
-                <li class="accordion closed"><span class="name">Wisdom</span><span class="mod">+3</span><span class="proficient"></span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Wis. (16) modifier</span><span class="mod">+3</span></div>
-                <li class="accordion closed"><span class="name">Charisma</span><span class="mod">+0</span><span class="proficient"></span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Cha. (10) modifier</span><span class="mod">+0</span></div>
+                <li v-for="stat in ['Strength','Dexterity','Constitution','Intelligence','Wisdom','Charisma']">
+                    <span class="name">{{ stat }}</span>
+                    <span class="mod">{{ getMod(stat, true)}}</span>
+                    <span class="proficient"><template v-if="isProficient(stat)">&bull;</template></span>
+                    <button class="roll">Roll</button>
+                </li>
             </ul>
         </section>
         <section class="skills">
             <h2 class="accordion">Skills</h2>
             <ul>
-                <li class="accordion closed"><span class="name">Acrobatics</span><span class="mod">+4</span><span class="proficient"></span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Dex. (18) modifier</span><span class="mod">+4</span></div>
-                <li class="accordion closed"><span class="name">Animal Handling</span><span class="mod">+3</span><span class="proficient"></span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Wis. (16) modifier</span><span class="mod">+3</span></div>
-                <li class="accordion closed"><span class="name">Arcana</span><span class="mod">-1</span><span class="proficient"></span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Int. (8) modifier</span><span class="mod">-1</span></div>
-                <li class="accordion closed"><span class="name">Athletics</span><span class="mod">+4</span><span class="proficient">&bull;</span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Str. (12) modifier<br/>Prof. bonus (<span class="proficient">&bull;</span>)</span><span class="mod">+1<br/>+3</span></div>
-                <li class="accordion closed"><span class="name">Deception</span><span class="mod">+0</span><span class="proficient"></span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Cha. (10) modifier</span><span class="mod">+0</span></div>
-                <li class="accordion closed"><span class="name">History</span><span class="mod">-1</span><span class="proficient"></span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Int. (8) modifier</span><span class="mod">-1</span></div>
-                <li class="accordion closed"><span class="name">Insight</span><span class="mod">+3</span><span class="proficient"></span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Wis. (16) modifier</span><span class="mod">+3</span></div>
-                <li class="accordion closed"><span class="name">Intimidation</span><span class="mod">+0</span><span class="proficient"></span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Cha. (10) modifier</span><span class="mod">+0</span></div>
-                <li class="accordion closed"><span class="name">Investigation</span><span class="mod">+2</span><span class="proficient">&bull;</span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Int. (8) modifier<br/>Prof. bonus (<span class="proficient">&bull;</span>)</span><span class="mod">-1<br/>+3</span></div>
-                <li class="accordion closed"><span class="name">Medicine</span><span class="mod">+3</span><span class="proficient"></span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Wis. (16) modifier</span><span class="mod">+3</span></div>
-                <li class="accordion closed"><span class="name">Nature</span><span class="mod">+2</span><span class="proficient">&bull;</span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Int. (8) modifier<br/>Prof. bonus (<span class="proficient">&bull;</span>)</span><span class="mod">-1<br/>+3</span></div>
-                <li class="accordion closed"><span class="name">Perception</span><span class="mod">+6</span><span class="proficient">&bull;</span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Wis. (16) modifier<br/>Prof. bonus (<span class="proficient">&bull;</span>)</span><span class="mod">+3<br/>+3</span></div>
-                <li class="accordion closed"><span class="name">Performance</span><span class="mod">+0</span><span class="proficient"></span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Cha. (10) modifier</span><span class="mod">+0</span></div>
-                <li class="accordion closed"><span class="name">Persuasion</span><span class="mod">+0</span><span class="proficient"></span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Cha. (10) modifier</span><span class="mod">+0</span></div>
-                <li class="accordion closed"><span class="name">Religion</span><span class="mod">-1</span><span class="proficient"></span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Int. (8) modifier</span><span class="mod">-1</span></div>
-                <li class="accordion closed"><span class="name">Sleight of Hand</span><span class="mod">+4</span><span class="proficient"></span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Dex. (18) modifier</span><span class="mod">+4</span></div>
-                <li class="accordion closed"><span class="name">Stealth</span><span class="mod">+4</span><span class="proficient"></span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Dex. (18) modifier</span><span class="mod">+4</span></div>
-                <li class="accordion closed"><span class="name">Survival</span><span class="mod">+6</span><span class="proficient">&bull;</span><button class="roll">Roll</button></li>
-                <div class="details"><span class="name">Wis. (16) modifier<br/>Prof. bonus (<span class="proficient">&bull;</span>)</span><span class="mod">+3<br/>+3</span></div>
+                <li v-for="(skill, key) in allCharacters[currentCharacter].proficiencies.skills">
+                    <span class="name">{{ key.replace(/([A-Z])/g, ' $1').replace(/^./, function(str){return str.toUpperCase();}) }}</span>
+                    <span class="mod">{{ getMod(key, true) }}</span>
+                    <span class="proficient"><template v-if="isProficient(key)">&bull;</template></span>
+                    <button class="roll">Roll</button>
+                </li>
             </ul>
         </section>
     </div>

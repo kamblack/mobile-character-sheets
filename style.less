@@ -29,7 +29,7 @@ h1 {
 section ul {
     list-style: none;
     > * { padding: 5px 0; }
-    > * + :nth-child(odd) { border-top: 1px solid #999; }
+    > *+* { border-top: 1px solid #999; }
     li { align-items: center; }
     li, .details {
         display: grid;
@@ -111,11 +111,7 @@ section.hp-edit {
             option + option { margin-top: 5px; }
         }
     }
-    .condition-info {
-        margin-top: 10px;
-        dt { font-weight: bold; }
-        p { margin: 3px 0 3px 10px; }
-    }
+    .condition-info { margin-top: 10px; }
 }
 section.key ul {
     display: flex;
