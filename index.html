@@ -90,7 +90,7 @@
             </ul>
         </section>
         <section class="attacks">
-            <h2 class="accordion">Attacks</h2>
+            <h2 v-on:click="accordion($event)">Attacks</h2>
             <ul>
                 <li v-for="attack in allCharacters[currentCharacter].attacks">
                     <span class="name">{{ attack.name }}</span>
@@ -102,7 +102,7 @@
             </ul>
         </section>
         <section class="saves">
-            <h2 class="accordion">Saves</h2>
+            <h2 v-on:click="accordion($event)">Saves</h2>
             <ul>
                 <li v-for="stat in ['Strength','Dexterity','Constitution','Intelligence','Wisdom','Charisma']">
                     <span class="name">{{ stat }}</span>
@@ -113,7 +113,7 @@
             </ul>
         </section>
         <section class="skills">
-            <h2 class="accordion">Skills</h2>
+            <h2 v-on:click="accordion($event)">Skills</h2>
             <ul>
                 <li v-for="(skill, key) in allCharacters[currentCharacter].proficiencies.skills">
                     <span class="name">{{ key.replace(/([A-Z])/g, ' $1').replace(/^./, function(str){return str.toUpperCase();}) }}</span>

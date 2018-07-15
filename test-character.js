@@ -44,8 +44,7 @@ var characters = [
         int: false,
         wis: false,
         cha: false
-      },
-      others: [ 'Light Armor', 'Medium Armor', 'Shields', 'Martial Weapons', 'Simple Weapons', 'Dulcimer', 'Aarakocra', 'Auran', 'Celestial', 'Common', 'Draconic' ]
+      }
     },
     attacks: [
       {

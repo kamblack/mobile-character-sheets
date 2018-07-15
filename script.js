@@ -46,31 +46,31 @@ const sheet = new Vue({
         },
         getMod: function(stat, addProficiency){
             switch (stat.toLowerCase()) {
-                case 'strength': return (addProficiency ? this.strMod + this.allCharacters[this.currentCharacter].profBonus : this.strMod); break;
-                case 'dexterity': return (addProficiency ? this.dexMod + this.allCharacters[this.currentCharacter].profBonus : this.dexMod); break;
-                case 'constitution': return (addProficiency ? this.conMod + this.allCharacters[this.currentCharacter].profBonus : this.conMod); break;
-                case 'intelligence': return (addProficiency ? this.intMod + this.allCharacters[this.currentCharacter].profBonus : this.intMod); break;
-                case 'wisdom': return (addProficiency ? this.wisMod + this.allCharacters[this.currentCharacter].profBonus : this.wisMod); break;
-                case 'charisma': return (addProficiency ? this.chaMod + this.allCharacters[this.currentCharacter].profBonus : this.chaMod); break;
+                case 'strength': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.saves.str ? this.strMod + this.allCharacters[this.currentCharacter].profBonus : this.strMod); break;
+                case 'dexterity': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.saves.dex ? this.dexMod + this.allCharacters[this.currentCharacter].profBonus : this.dexMod); break;
+                case 'constitution': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.saves.con ? this.conMod + this.allCharacters[this.currentCharacter].profBonus : this.conMod); break;
+                case 'intelligence': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.saves.int ? this.intMod + this.allCharacters[this.currentCharacter].profBonus : this.intMod); break;
+                case 'wisdom': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.saves.wis ? this.wisMod + this.allCharacters[this.currentCharacter].profBonus : this.wisMod); break;
+                case 'charisma': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.saves.cha ? this.chaMod + this.allCharacters[this.currentCharacter].profBonus : this.chaMod); break;
 
-                case 'acrobatics': return (addProficiency ? this.dexMod + this.allCharacters[this.currentCharacter].profBonus : this.dexMod); break;
-                case 'animalhandling': return (addProficiency ? this.wisMod + this.allCharacters[this.currentCharacter].profBonus : this.wisMod); break;
-                case 'arcana': return (addProficiency ? this.intMod + this.allCharacters[this.currentCharacter].profBonus : this.intMod); break;
-                case 'athletics': return (addProficiency ? this.strMod + this.allCharacters[this.currentCharacter].profBonus : this.strMod); break;
-                case 'deception': return (addProficiency ? this.chaMod + this.allCharacters[this.currentCharacter].profBonus : this.chaMod); break;
-                case 'history': return (addProficiency ? this.intMod + this.allCharacters[this.currentCharacter].profBonus : this.intMod); break;
-                case 'insight': return (addProficiency ? this.wisMod + this.allCharacters[this.currentCharacter].profBonus : this.wisMod); break;
-                case 'intimidation': return (addProficiency ? this.chaMod + this.allCharacters[this.currentCharacter].profBonus : this.chaMod); break;
-                case 'investigation': return (addProficiency ? this.intMod + this.allCharacters[this.currentCharacter].profBonus : this.intMod); break;
-                case 'medicine': return (addProficiency ? this.wisMod + this.allCharacters[this.currentCharacter].profBonus : this.wisMod); break;
-                case 'nature': return (addProficiency ? this.intMod + this.allCharacters[this.currentCharacter].profBonus : this.intMod); break;
-                case 'perception': return (addProficiency ? this.wisMod + this.allCharacters[this.currentCharacter].profBonus : this.wisMod); break;
-                case 'performance': return (addProficiency ? this.chaMod + this.allCharacters[this.currentCharacter].profBonus : this.chaMod); break;
-                case 'persuasion': return (addProficiency ? this.chaMod + this.allCharacters[this.currentCharacter].profBonus : this.chaMod); break;
-                case 'religion': return (addProficiency ? this.intMod + this.allCharacters[this.currentCharacter].profBonus : this.intMod); break;
-                case 'sleightofhand': return (addProficiency ? this.dexMod + this.allCharacters[this.currentCharacter].profBonus : this.dexMod); break;
-                case 'stealth': return (addProficiency ? this.dexMod + this.allCharacters[this.currentCharacter].profBonus : this.dexMod); break;
-                case 'survival': return (addProficiency ? this.wisMod + this.allCharacters[this.currentCharacter].profBonus : this.wisMod); break;
+                case 'acrobatics': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.skills[stat] ? this.dexMod + this.allCharacters[this.currentCharacter].profBonus : this.dexMod); break;
+                case 'animalhandling': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.skills[stat] ? this.wisMod + this.allCharacters[this.currentCharacter].profBonus : this.wisMod); break;
+                case 'arcana': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.skills[stat] ? this.intMod + this.allCharacters[this.currentCharacter].profBonus : this.intMod); break;
+                case 'athletics': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.skills[stat] ? this.strMod + this.allCharacters[this.currentCharacter].profBonus : this.strMod); break;
+                case 'deception': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.skills[stat] ? this.chaMod + this.allCharacters[this.currentCharacter].profBonus : this.chaMod); break;
+                case 'history': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.skills[stat] ? this.intMod + this.allCharacters[this.currentCharacter].profBonus : this.intMod); break;
+                case 'insight': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.skills[stat] ? this.wisMod + this.allCharacters[this.currentCharacter].profBonus : this.wisMod); break;
+                case 'intimidation': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.skills[stat] ? this.chaMod + this.allCharacters[this.currentCharacter].profBonus : this.chaMod); break;
+                case 'investigation': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.skills[stat] ? this.intMod + this.allCharacters[this.currentCharacter].profBonus : this.intMod); break;
+                case 'medicine': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.skills[stat] ? this.wisMod + this.allCharacters[this.currentCharacter].profBonus : this.wisMod); break;
+                case 'nature': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.skills[stat] ? this.intMod + this.allCharacters[this.currentCharacter].profBonus : this.intMod); break;
+                case 'perception': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.skills[stat] ? this.wisMod + this.allCharacters[this.currentCharacter].profBonus : this.wisMod); break;
+                case 'performance': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.skills[stat] ? this.chaMod + this.allCharacters[this.currentCharacter].profBonus : this.chaMod); break;
+                case 'persuasion': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.skills[stat] ? this.chaMod + this.allCharacters[this.currentCharacter].profBonus : this.chaMod); break;
+                case 'religion': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.skills[stat] ? this.intMod + this.allCharacters[this.currentCharacter].profBonus : this.intMod); break;
+                case 'sleightofhand': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.skills[stat] ? this.dexMod + this.allCharacters[this.currentCharacter].profBonus : this.dexMod); break;
+                case 'stealth': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.skills[stat] ? this.dexMod + this.allCharacters[this.currentCharacter].profBonus : this.dexMod); break;
+                case 'survival': return (addProficiency && this.allCharacters[this.currentCharacter].proficiencies.skills[stat] ? this.wisMod + this.allCharacters[this.currentCharacter].profBonus : this.wisMod); break;
             }
         },
         isProficient: function(x){
